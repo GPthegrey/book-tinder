@@ -27,7 +27,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_06_113552) do
   create_table "bookclubs", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.string "address"
+    t.string "meeting_location"
+    t.integer "max_members"
+    t.string "privacy", default: "public"
+    t.string "genre"
+    t.date "Meeting_schedule"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -36,10 +40,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_06_113552) do
 
   create_table "books", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "name"
+    t.string "title"
     t.string "author"
     t.string "description"
     t.string "genre"
+    t.integer "rating"
+    t.string "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_books_on_user_id"
@@ -51,21 +57,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_06_113552) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.string "name"
+    t.string "title"
     t.string "description"
     t.string "address"
+    t.integer "max_assistants"
+    t.string "privacy", default: "public"
     t.bigint "user_id", null: false
+    t.datetime "date"
+    t.datetime "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
-    t.integer "offerer"
-    t.integer "receiver"
-    t.integer "book_offered"
-    t.integer "book_received"
-    t.string "status"
+    t.integer "offerer_id"
+    t.integer "receiver_id"
+    t.integer "book_offered_id"
+    t.integer "book_received_id"
+    t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -99,8 +109,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_06_113552) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "reviewer"
-    t.integer "reviewed"
+    t.integer "reviewer_id"
+    t.integer "reviewed_id"
+    t.string "comment"
     t.integer "rating"
     t.bigint "match_id", null: false
     t.datetime "created_at", null: false
