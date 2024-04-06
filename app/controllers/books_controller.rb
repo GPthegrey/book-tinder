@@ -9,6 +9,10 @@ class BooksController < ApplicationController
 
   end
 
+  def my_books
+    @books = Book.where(user: current_user)
+  end
+
   def new
     @book = Book.new
   end
