@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   before_action :find_book, only: [:show, :edit, :update, :destroy]
 
   def index
-    @books = Book.all
+    @books = Book.where.not(user: current_user)
   end
 
   def show
